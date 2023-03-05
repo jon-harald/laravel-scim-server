@@ -168,7 +168,7 @@ class ResourceController extends Controller
 
     public function show(Request $request, PolicyDecisionPoint $pdp, ResourceType $resourceType, Model $resourceObject)
     {
-        event(new Get($resourceObject));
+        event(new Get($resourceObject, null, $request));
 
         return Helper::objectToSCIMResponse($resourceObject, $resourceType);
     }
