@@ -146,7 +146,7 @@ class ResourceController extends Controller
 
         $resourceObject = self::createFromSCIM($resourceType, $input, $pdp, $request, false, $isMe);
 
-        event(new Create($resourceObject, $isMe));
+        event(new Create($resourceObject, $isMe, $request));
 
         return $resourceObject;
     }
@@ -177,7 +177,7 @@ class ResourceController extends Controller
     {
         $resourceObject->delete();
 
-        event(new Delete($resourceObject));
+        event(new Delete($resourceObject, null, $request));
 
         return response(null, 204);
     }
@@ -237,7 +237,7 @@ class ResourceController extends Controller
 
         $resourceObject->save();
 
-        event(new Replace($resourceObject, $isMe, $originalRaw));
+        event(new Replace($resourceObject, $isMe, $request, $originalRaw));
 
         return Helper::objectToSCIMResponse($resourceObject, $resourceType);
     }
@@ -324,7 +324,7 @@ class ResourceController extends Controller
 
         $resourceObject->save();
 
-        event(new Patch($resourceObject, $isMe, $oldObject));
+        event(new Patch($resourceObject, $isMe, $request, $oldObject));
 
         return Helper::objectToSCIMResponse($resourceObject, $resourceType);
     }
